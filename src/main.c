@@ -19,22 +19,25 @@ static int      ft_term_decribe(void)
 
 static void     fill_catalog(t_select *catalog, int ac, char **av)
 {
-	int     index;
+	int         index;
+    struct stat buf;
 
     index = 0;
     while (index < ac)
     {
-        catalog[index].len = ft_strlen(av[i]);
-        catalog[index].name = av[i];
+        catalog[index].len = ft_strlen(av[index]);
+        catalog[index].name = av[index];
         catalog[index].hidden = false;
         catalog[index].current = false;
         catalog[index].chosen = false;
-        if (index + 1 == ac)
-            catalog[index].last = true;
-        else
-            catalog[index].last = false;
+        if (!lstat(av[index], &buf))
+			catalog[index].type = buf.st_mode;
+		else
+			handle_errors("lstat failed to recognize type of the file");
+		catalog[index].last = false;
         index++;
     }
+	catalog[index - 1].last = true;
 }
 
 
@@ -43,7 +46,9 @@ int             ft_select(int ac, char **av)
     t_select    catalog[ac - 1];
     t_term      display;
 
-    fill_catalog(catalog, ac);
+//signal
+    fill_catalog(catalog, ac, av);
+
     return (0);
 }
 

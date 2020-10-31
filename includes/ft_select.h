@@ -10,11 +10,13 @@
 # include <signal.h>
 # include <stdbool.h>
 # include "libft.h"
-
+# include <sys/types.h>
+# include <sys/stat.h>
 typedef struct		s_select
 {
 	char			*name;
 	int				len;
+	int				type;
 	bool			hidden;
 	bool			current;
 	bool			chosen;
