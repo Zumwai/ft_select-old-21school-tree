@@ -12,7 +12,8 @@ LIB = libft.a
 LIB_D = $(addprefix $(LIB_F), $(LIB))
 LIB_C = -L $(LIB_F) -lft -ltermcap
 SOUS = ./src/
-SOUS_FIL = *.c
+SOUS_FIL =	main.c \
+			handle_errors.c
 OBJS = $(SOUS_FIL:.c=.o)
 SOUS_F = $(addprefix $(SOUS), $(SOUS_FIL))
 OBJS_F = $(addprefix $(BIN), $(OBJS))
