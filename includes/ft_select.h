@@ -29,6 +29,7 @@ typedef struct		s_select
 
 typedef struct		s_term
 {
+	char			*tty_type;
 	struct termios	old_tty;
 	int				fd;
 

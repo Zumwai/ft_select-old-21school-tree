@@ -12,10 +12,10 @@ static void      ft_term_decribe(t_term *config)
     char    *term_type;
     int     result;
 
-    term_type = getenv("TERM");
-    if (!term_type)
+    config->tty_type = getenv("TERM");
+    if (!config->tty_type)
         handle_errors("Specify a terminal type with setenv\n");
-    result = tgetent(NULL, term_type);
+    result = tgetent(NULL, config->tty_type);
     if (result < 0)
         handle_errors("Could not access the termcap data base\n");
     if (!result)
@@ -69,9 +69,13 @@ void	init_tty(t_term *config)
 	struct termios tattr;
 	
 	tcgetattr(STDIN_FILENO, &tattr);
-	//tattr.c_lflag &= ~(ICANON|ECHO);
-	tcsetattr (STDIN_FILENO, TCSAFLUSH, &tattr);
+	tattr.c_lflag &= ~(ICANON|ECHO);
+	tattr.c_oflag &= ~(OPOST);
+	tattr.c_cc[VMIN] = 1;
+	tattr.c_cc[VTIME] = 0;
+	tcsetattr (STDIN_FILENO, TCSANOW, &tattr);
 }
+
 int             ft_select(int ac, char **av)
 {
     t_select    *catalog;
@@ -82,9 +86,19 @@ int             ft_select(int ac, char **av)
 	catalog = NULL;
 	ft_term_decribe(&display);
     fill_catalog(&catalog, ac, av);
-
 	init_tty(&display);
 	//reset_tty(&display);
+
+
+	t_select *curs;
+	curs = catalog;
+	while (catalog->last == false)
+	{
+				curs = catalog;
+				catalog = catalog->next;
+				free(curs);
+	}
+	free(catalog);
     return (0);
 }
 
@@ -93,7 +107,7 @@ int             main(int ac, char **av)
     //signals
     if (ac < 2)
         handle_errors("usage: at least one argument required\n");
-    ft_select(ac - 2, av + 1);
+    ft_select(ac - 1, av + 1);
    // close(fd);
     return (0);
 }
