@@ -1,0 +1,22 @@
+co	Number of columns
+li	Number of lines
+so	Start standout mode
+sc	Save cursor position
+se	End standout mode
+cl	Clear screen and cursor home
+cm	Cursor move to row %1 and column %2 (on screen)
+ve	Normal cursor visible
+vi	Cursor invisible
+us	Start underlining
+te	End program that uses cursor motion
+ti	Begin program that uses cursor motion
+me	End all mode like so, us, mb, md, and mr
+cd	Clear to end of screen
+mr	Start reverse mode
+ho	Cursor home
+hd	Move cursor a half line down
+do	Cursor down one line
+kd   Cursor down key
+kl   Cursor left key
+kr   Cursor right key
+ku   Cursor up key

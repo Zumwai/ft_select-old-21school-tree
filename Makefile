@@ -1,5 +1,5 @@
 NAME = ft_select
-COM = gcc
+COM = clang
 HEAD_SELECT = ./includes/
 HEAD_L = ./libft/
 HEAD_LIB = libft.h
