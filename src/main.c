@@ -3,6 +3,7 @@
 static void		ft_fill_termios(t_term **config)
 {
 	tcgetattr(STDIN_FILENO, &((*config)->old_tty));
+	(*config)->fd = open(ttyname(STDIN_FILENO), O_RDWR | O_NOCTTY);
 
 }
 
@@ -87,7 +88,8 @@ int             ft_select(int ac, char **av)
 	ft_term_decribe(&display);
     fill_catalog(&catalog, ac, av);
 	init_tty(&display);
-	//reset_tty(&display);
+	reset_tty(&display);
+	close(display.fd);
 
 
 	t_select *curs;

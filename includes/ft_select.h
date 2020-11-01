@@ -13,6 +13,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <curses.h>
+# include <fcntl.h>
 
 typedef struct		s_select
 {
