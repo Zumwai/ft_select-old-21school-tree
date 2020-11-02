@@ -1,25 +1,26 @@
-co	Number of columns
-li	Number of lines
-so	Start standout mode
-se	End standout mode
-cl	Clear screen and cursor home
-cm	Cursor move to row %1 and column %2 (on screen)
-ve	Normal cursor visible
-sc	Save cursor position
-vi	Cursor invisible
-ho	Cursor home
-hd	Move cursor a half line down
-do	Cursor down one line
-kd  Cursor down key
-kl  Cursor left key
-kr  Cursor right key
-ku  Cursor up key
-us	Start underlining
-te	End program that uses cursor motion
-ti	Begin program that uses cursor motion
-me	End all mode like so, us, mb, md, and mr
-cd	Clear to end of screen
-mr	Start reverse mode
+int co	Number of columns
+int li	Number of lines
+str so	Start standout mode
+str se	End standout mode
+str cl	Clear screen and cursor home
+str cm	Cursor move to row %1 and column %2 (on screen)
+str ve	Normal cursor visible
+str sc	Save cursor position
+str vi	Cursor invisible
+str ho	Cursor home
+str hd	Move cursor a half line down
+str do	Cursor down one line
+str kd  Cursor down key
+str kl  Cursor left key
+str kr  Cursor right key
+str ku  Cursor up key
+str us	Start underlining
+str te	End program that uses cursor motion
+str ti	Begin program that uses cursor motion
+str me	End all mode like so, us, mb, md, and mr
+str cd	Clear to end of screen
+str mr	Start reverse mode
+bool ms Cursor movement works in standout/underline mode
 
 TERMIOS
 tcflag_t

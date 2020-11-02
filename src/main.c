@@ -7,12 +7,19 @@ static void		ft_fill_termios(t_term **config)
 
 }
 
+static void		interrogate_term(t_term *conf)
+{
+
+}
+
 static void      ft_term_decribe(t_term *config)
 {
 	struct termios	tty;
     char    *term_type;
     int     result;
 
+	if (!isatty(STDIN_FILENO))
+		handle_errors("Not a terminal");
     config->tty_type = getenv("TERM");
     if (!config->tty_type)
         handle_errors("Specify a terminal type with setenv\n");
@@ -75,6 +82,9 @@ void	init_tty(t_term *config)
 	tattr.c_cc[VMIN] = 1;
 	tattr.c_cc[VTIME] = 0;
 	tcsetattr (STDIN_FILENO, TCSANOW, &tattr);
+	char	*str;
+	str = tgetstr("cl", NULL);
+	ft_putstr_fd(str, config->fd);
 }
 
 int             ft_select(int ac, char **av)

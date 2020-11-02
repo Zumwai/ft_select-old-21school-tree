@@ -33,8 +33,27 @@ typedef struct		s_term
 	char			*tty_type;
 	struct termios	old_tty;
 	int				fd;
-
-	/* data */
+	int				columns;	//co
+	int				rows;		//li
+	char			*standout;	//so
+	char			*normal;	//se
+	char			*clear;		//cl
+	char			*cursor_move; //cm
+	char			*cursor_visible; // ve
+	char			*cursor_home;	//ho
+	char			*cursor_half; //hd
+	char			*cursor_down; //do
+	char			*cursor_key_d; //kd
+	char			*cursor_key_l; //kl
+	char			*cursor_key_r; //kr
+	char			*cursor_key_u; //ku
+	char			*underlining; //us
+	char			*end_cursor; //te
+	char			*start_cursor; //ti
+	char			*end_modes; //me
+	char			*clear_all; //cd
+	char			*reverse; //mr
+	bool			allow_move; //ms
 }					t_term;
 
 typedef	struct s_sig
