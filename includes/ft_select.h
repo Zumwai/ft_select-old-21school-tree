@@ -64,4 +64,11 @@ typedef	struct s_sig
 
 void	handle_errors(char *str);
 
+void	reset_tty(t_term *saved);
+
+void		ft_fill_termios(t_term **config);
+
+int             ft_select(int ac, char **av);
+
+
 #endif
