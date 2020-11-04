@@ -2,6 +2,7 @@ int co	Number of columns
 int li	Number of lines
 str so	Start standout mode
 str se	End standout mode
+str ti	Begin program that uses cursor motion
 str cl	Clear screen and cursor home
 str cm	Cursor move to row %1 and column %2 (on screen)
 str ve	Normal cursor visible

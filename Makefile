@@ -15,7 +15,8 @@ SOUS = ./src/
 SOUS_FIL =	main.c \
 			handle_errors.c \
 			misc.c \
-			select.c
+			select.c \
+			loop.c 
 OBJS = $(SOUS_FIL:.c=.o)
 SOUS_F = $(addprefix $(SOUS), $(SOUS_FIL))
 OBJS_F = $(addprefix $(BIN), $(OBJS))

@@ -2,7 +2,7 @@
 
 void    handle_errors(char *str)
 {
-    ft_putstr_fd("ft_select: ", 2);
-    ft_putstr_fd(str, 2);
+    ft_putstr_fd("ft_select: ", STDERR_FILENO);
+    ft_putstr_fd(str, STDERR_FILENO);
     exit(1);
 }
