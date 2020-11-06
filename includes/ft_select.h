@@ -79,4 +79,7 @@ t_select	*create_node(char *vector);
 
 int		ft_printnbr(int nbr);
 
+void	print_vector(t_select *vector, int max, bool last);
+
+int	ft_calc_draw(t_term *config, t_select *vector);
 #endif

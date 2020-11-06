@@ -49,15 +49,19 @@ static void      ft_term_decribe(t_term *config)
 static void     fill_catalog(t_select **catalog, int ac, char **av)
 {
 	t_select	*curs;
+	t_select	*head;
 	int         index;
 
     index = 0;
 
 	curs = create_node(av[index++]);
+	curs->current = true;
+	curs->prev = NULL;
 	(*catalog) = curs;
     while (index < ac)
     {
 		curs->next = create_node(av[index]);
+		curs->next->prev = curs;
 		curs = curs->next;
         index++;
     }
@@ -71,7 +75,7 @@ void	init_tty(t_term *config)
 	tcgetattr(STDIN_FILENO, &(config->tattr));
 	tcgetattr(STDIN_FILENO, &(config->old_tattr));
 	config->tattr.c_lflag &= ~(ICANON | ECHO);
-///	config->tattr.c_oflag &= ~(OPOST);
+//	config->tattr.c_oflag &= ~(OPOST);
 	config->tattr.c_cc[VMIN] = 1;
 	//tattr.c_cc[VTIME] = 0;
 	tcsetattr(STDIN_FILENO, TCSANOW, &(config->tattr));

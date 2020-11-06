@@ -1,76 +1,179 @@
 #include "ft_select.h"
 
-static int		max_vector_length(t_select *vector)
+
+
+void	key_right(t_select **vector)
 {
 	t_select	*curs;
-	int			tmp;
-	int			max;
+	t_select	*head;
 
-	max = 3;
-	curs = vector;
+	curs = (*vector);
+	head = curs;
 	while (curs)
 	{
-		tmp = ft_strlen(curs->name);
-		if (tmp > max)
-			max = tmp;
+		if (curs->current == false)
+			curs = curs->next;
+		else
+		{
+			curs->current = false;
+			if (curs->next)
+				curs->next->current = true;
+			else
+				head->current = true;
+			break ;
+		}
+	}
+}
+/*
+void	key_backspace(t_select **vector)
+{
+	t_select	*curs;
+
+	curs = (*vector);
+	while (curs)
+	{
+		if (curs->current == true)
+		{
+			if (curs->next)
+				curs->next->current = true;
+			else if (curs->prev)
+				curs->prev->current = true;
+			else
+				break ;
+			curs->current = false;
+			curs->hidden = true;
+			break ;
+		}
+		else
+		{
+			curs = curs->next;
+		}
+		
+	}
+}
+*/
+void	key_backspace(t_select **vector)
+{
+	t_select	*curs;
+
+	curs = (*vector);
+	while (curs)
+	{
+		if (curs->current == true)
+		{
+			if (curs->next)
+				curs->next->current = true;
+			else if (curs->prev)
+				curs->prev->current = true;
+			else
+				handle_errors("no more arguments left");
+			curs->hidden = TRUE;
+			break ;
+		}
 		curs = curs->next;
 	}
-	return (max);
 }
 
-static int		count_vectors(t_select *vector)
-{
-	int		res;
-	t_select	*curs;
-
-	curs = vector;
-	res = 1;
-	while (curs)
-	{
-		res++;
-		curs = curs->next;
-	}
-	return (res);
-}
-
-static void ft_draw(t_select *vector, int max_len, int col)
+void	key_left(t_select **vector)
 {
 	t_select	*curs;
-	int			tmp_col;
+	t_select	*head;
 
-	tmp_col = 0;
-	curs = vector;
+	curs = (*vector);
+	head = curs;
 	while (curs)
 	{
-			tmp_col = 0;
-			while (tmp_col < col)
+		if (curs->current == false)
+			curs = curs->next;
+		else
+		{
+			curs->current = false;
+			if (curs->prev)
+				curs->prev->current = true;
+			else
 			{
-				if (!curs)
-					break;
-				ft_putstr(curs->name);
-				ft_putstr("  ");
-				curs = curs->next;
-				tmp_col++;
+				while (curs->last == false)
+					curs = curs->next;
+				curs->current = true;
 			}
-			ft_putchar('\n');
+			break ;
+		}
 	}
 }
 
-static int	ft_calc_draw(t_term *config, t_select *vector)
+void	key_down(t_select **vector, int col)
 {
-	int	max_len;
-	int	num_vec;
-	int	col;
-	int	rows_taken;
+	t_select	*curs;
+	t_select	*tmp;
+	int		i;
 
-	max_len = max_vector_length(vector);
-	num_vec = count_vectors(vector);
-	col = config->columns / max_len;
-	rows_taken = num_vec / col;
-	if (config->rows < rows_taken)
-		handle_errors("Not enough rows\n");
-	ft_draw(vector, max_len, col);
-	return (1);
+	i = 0;
+	curs = (*vector);
+	while (curs)
+	{
+		if (curs->current == true)
+		{
+			tmp = curs;
+			break ;
+		}
+		curs = curs->next;
+	}
+	while (curs && i < col)
+	{
+		if (curs->hidden == FALSE)
+			i++;
+		curs = curs->next;
+	}
+	if (i == col)
+	{
+		curs->current = true;
+		tmp->current = false;
+	}
+}
+void placehold(t_select *vector, int col)
+{
+	int		key;
+	int		ret;
+
+	while (1){
+		key = 0;
+		ret = 0;
+		if ((ret = read(STDIN_FILENO, &key, sizeof(key))))
+		{
+			printf("%d - key\n", key);
+			if (key == 4414235)
+			{
+				tgoto("vasya", 40, 0);
+				ft_putchar('r');
+				key_right(&vector);
+				return ;
+			}
+			else if (key == 127)
+			{
+				ft_putchar('b');
+				key_backspace(&vector);
+				break ;
+			}
+			else if (key == 4479771)
+			{
+				ft_putchar('l');
+				key_left(&vector);
+				break ;
+			}
+			else if (key == 4348699)
+			{
+				ft_putchar('d');
+				key_down(&vector, col);
+				break ;
+			}
+			else if (key == 4283163)
+			{
+				//key_up(&vector, col);
+				break ;
+			}
+		}
+	}
+	ft_putchar('x');
 }
 
 void	ft_loop(t_term *config, t_select *vector)
@@ -78,15 +181,26 @@ void	ft_loop(t_term *config, t_select *vector)
 	int		i;
 	int		flag = 0;
 	t_select	*curs;
+	int		key;
+	int		ret;
+	int		col;
 
 	i = 0;
+	key = 0;
+	ret = 0;
 	curs = vector;
 	while (1)
 	{
 		tputs(config->clear, 1, ft_printnbr);
 		//if (!flag)
-		ft_calc_draw(config, vector);
-		//break ;
+		col = ft_calc_draw(config, vector);
+		if (col == 1)
+			handle_errors("alarm");
+		printf("%d", ret);
+	//	if ((ret = read(STDIN_FILENO, &key, sizeof(int))))
+	//		key_right(&vector);
+		placehold(vector, col);
+		ret++;
 	}
 
 }

@@ -31,6 +31,31 @@ t_select	*create_node(char  *vector)
 	return (new);
 }
 
+void	print_vector(t_select *vector, int max, bool last)
+{
+	if (vector->hidden == true)
+		return ;
+	if (vector->current == true)
+	{
+		ft_putstr(tgetstr("mr", NULL));
+		ft_putstr(vector->name);
+		ft_putstr(tgetstr("me", NULL));
+	}
+	else
+	{
+		ft_putstr(vector->name);
+	}
+	if (last != false)
+	{
+		while (vector->len < max)
+		{
+			max--;
+			ft_putchar(' ');
+		}
+		ft_putchar(' ');
+	}
+}
+
 int		ft_printnbr(int nbr)
 {
 	return (write(STDERR_FILENO, &nbr, 1));
