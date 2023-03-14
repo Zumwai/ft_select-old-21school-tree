@@ -1,3 +1,4 @@
+very old linux select implementation.
 1 main
     a) check for ac
     b) check for empty args(empty string) check_empty_argc
